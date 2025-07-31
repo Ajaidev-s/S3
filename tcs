@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+class Spotify {
+    private int SpotifyId;
+    private String profileName, subscriptionType, groupSessionAvailable;
+    private double subscriptionPrice;
+
+    public String getsubtype() {
+        return this.subscriptionType;
+    }
+
+    public String getgrpses() {
+        return this.groupSessionAvailable;
+    }
+
+    public double getsubpri() {
+        return this.subscriptionPrice;
+    }
+
+    public Spotify(int sid, String pname, String subtype, double subprice, String grpseavai) {
+        this.SpotifyId = sid;
+        this.profileName = pname;
+        this.subscriptionType = subtype;
+        this.subscriptionPrice = subprice;
+        this.groupSessionAvailable = grpseavai;
+    }
+}
+
+public class Third {
+    public static void main(String args[]) {
+        Scanner s = new Scanner(System.in);
+        int sid;
+        String pname, subtype, grpsesavai;
+        double subprice;
+        String s1, s2;
+        Spotify[] objs = new Spotify[4];
+        double result;
+
+        for (int i = 0; i < 4; i++) {
+            sid = s.nextInt();
+            s.nextLine(); // to consume leftover newline
+            pname = s.nextLine();
+            subtype = s.nextLine();
+            subprice = s.nextDouble();
+            s.nextLine(); // to consume leftover newline
+            grpsesavai = s.nextLine();
+            objs[i] = new Spotify(sid, pname, subtype, subprice, grpsesavai);
+        }
+
+        s1 = s.nextLine();
+        s2 = s.nextLine();
+        result = findAvgSpotifySubsByType(objs, s1, s2);
+
+        if (result > 0) {
+            System.out.println(result);
+        } else {
+            System.out.println("no subscription found");
+        }
+
+        s.close();
+    }
+
+    public static double findAvgSpotifySubsByType(Spotify[] objs, String str1, String str2) {
+        int count = 0;
+        double sum = 0;
+        for (Spotify sp : objs) {
+            if (sp.getsubtype().toLowerCase().equals(str1.toLowerCase()) &&
+                sp.getgrpses().toLowerCase().equals(str2.toLowerCase())) {
+                count++;
+                sum += sp.getsubpri();
+            }
+        }
+        return (count == 0) ? 0.0 : sum / count;
+    }
+}
